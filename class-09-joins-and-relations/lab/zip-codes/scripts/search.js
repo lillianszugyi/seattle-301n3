@@ -29,10 +29,7 @@
     webDB.execute(
       'SELECT * from zips WHERE zip=' + zip + ';',
       function (results) {
-        var lat = results[0].latitude;
-        var long = results[0].longitude;
-        console.log(lat,long);
-        initMap(lat, long)
+        initMap(results)
       }
     );
   };
@@ -45,7 +42,14 @@
 
   var cityListen = function() {
     $('#city-select').on('change', function (){
-      console.log($(this).val());
+      var city = $(this).val();
+      var state = $('#state-select').val();
+      webDB.execute(
+        'SELECT * from zips WHERE city=' + '"' + city + '"' + ' AND state=' + '"' + state + '"' + ';',
+        function (results) {
+          initMap(results);
+        }
+      );
     });
   }
 
@@ -58,6 +62,7 @@
       }else{
         zipSearch(zippy);
       }
+      $("input[name*='zip']").val('');
     });
   };
 
@@ -67,5 +72,6 @@
   populateState();
   stateListen();
   zipListen();
+  cityListen();
 
 })(window)

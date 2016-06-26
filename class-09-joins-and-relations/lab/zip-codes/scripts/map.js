@@ -1,21 +1,25 @@
-function initMap(latty, longy) {
+function initMap(data) {
   // Create a map object and specify the DOM element for display.
-  if (!latty || !longy) {
-    latty = 47.611435;
-    longy = -122.330456;
+  if (!data) {
+    data = [{
+      latitude: 47.611435,
+      longitude: -122.330456
+    }];
   }
+
   var map = new google.maps.Map(document.getElementById('map'), {
-    center: {lat: latty, lng: longy},
+    center: {lat: data[0].latitude, lng: data[0].longitude},
     scrollwheel: true,
     zoom: 8
   });
 
-  var marker = new google.maps.Marker ( {
-    position: {lat: latty, lng: longy},
-    map: map,
-  });
+  data.forEach(function (ele) {
+    var marker = new google.maps.Marker ( {
+      position: {lat: ele.latitude, lng: ele.longitude},
+      map: map,
+    });
+  })
 }
-
 
 
 
