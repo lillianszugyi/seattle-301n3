@@ -13,6 +13,7 @@
   };
 
   // COMMENT: What does this method do?  What is it's execution path?
+  // This method is populating filters for both Author and Category. We are compiling the Handlebars on the 'template' from the #option-template. The options variable is mapping the Authors from the database. The if statement prevents duplication for both author and categories. We are grabbing category from the DB and mapping it to rows and appending to the #category-filter if there's less than 2 (if there are no duplicates).
   articleView.populateFilters = function() {
     var options,
       template = Handlebars.compile($('#option-template').text());
@@ -38,8 +39,9 @@
   };
 
   // COMMENT: What does this method do?  What is it's execution path?
+  //This sets up the URL for the filter options being selected. The page routing will remove any -filter and replace white space with a + sign.
   articleView.handleFilters = function() {
-    $('#filters').one('change', 'select', function() {
+    $('#filters').on('change', 'select', function() {
       resource = this.id.replace('-filter', '');
       page('/' + resource + '/' + $(this).val().replace(/\W+/g, '+')); // Replace any/all whitespace with a +
     });
@@ -124,6 +126,7 @@
   };
 
   // COMMENT: What does this method do?  What is it's execution path?
+  //This will show only the #articles and hide siblings. It will populate all the articles into the #articles from the created template render and removes the article template from the DOM.
   articleView.index = function(articles) {
     $('#articles').show().siblings().hide();
 
@@ -134,6 +137,7 @@
 
     articleView.populateFilters();
     // COMMENT: What does this method do?  What is it's execution path?
+    //We are invoking these functions.
     articleView.handleFilters();
 
     // DONE: Replace setTeasers with just the truncation logic, if needed:
